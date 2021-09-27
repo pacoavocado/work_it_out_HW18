@@ -1,17 +1,7 @@
 const router = require("express").Router();
 const Workout = require("../models/workout.js");
 
-router.get("/exercise", (req, res) => {
-  res.sendFile(__dirname, "../public/exercise.html");
-  return;
-});
-
-router.get("/stats", (req, res) => {
-  res.redirect("/stats");
-  return;
-});
-
-router.get("/api/workouts", (req, res) => {
+router.get("/workouts", (req, res) => {
   Workout.find({})
     .sort({ date: -1 })
     .then((workout) => {
@@ -23,10 +13,16 @@ router.get("/api/workouts", (req, res) => {
     });
 });
 
-router.get("/api/workouts/range", (req, res) => {
+router.get("/workouts/range", (req, res) => {
   Workout.find({})
     .sort({ date: -1 })
     .then((workout) => {
+      for (let i = 0; i < workout.length; i++) {
+        const duration = workout[i];
+        console.log(duration);
+        // add new property to workout here
+        // set property = sum of durrations from all exercises
+      }
       res.json(workout);
     })
     .catch((err) => {
@@ -35,7 +31,7 @@ router.get("/api/workouts/range", (req, res) => {
     });
 });
 
-router.post("/api/workouts", async ({ body }, res) => {
+router.post("/workouts", async ({ body }, res) => {
   try {
     const response = await Workout.create({ body });
     res.json(response);
@@ -47,7 +43,7 @@ router.post("/api/workouts", async ({ body }, res) => {
   }
 });
 
-router.put("/api/workouts/:id", async ({ body }, res) => {
+router.put("/workouts/:id", async ({ body }, res) => {
   const response = await Workout.find(body)
     .then((response) => {
       res.json(response);
