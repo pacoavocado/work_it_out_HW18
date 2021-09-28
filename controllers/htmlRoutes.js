@@ -8,7 +8,7 @@ router.get("/exercise", (req, res) => {
 });
 
 router.get("/stats", (req, res) => {
-  console.log("hello");
+  console.log("hello")
   res.sendFile(path.join(__dirname, "../public/stats.html"));
   return;
 });
